@@ -1,0 +1,147 @@
+/* =====================================================
+   Flowly Landing Page - style.css
+   Approach: MOBILE-FIRST. Base styles target phones;
+   media queries (min-width) progressively enhance for
+   tablets (768px) and desktops (1024px).
+   ===================================================== */
+
+/* ---------- 1. Design tokens (CSS variables) ----------
+   Central place for colours/spacing so the theme is easy to change. */
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #3730a3;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --bg: #ffffff;
+  --bg-alt: #f3f4f6;
+  --radius: 12px;
+  --shadow: 0 4px 14px rgba(0, 0, 0, .08);
+  --header-h: 64px;
+}
+
+/* ---------- 2. Reset & base ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); } /* offset for sticky header */
+body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--text); line-height: 1.6; background: var(--bg); }
+ul, ol { list-style: none; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* Centred content wrapper with fluid side padding */
+.container { width: 100%; max-width: 1100px; margin-inline: auto; padding-inline: 1.25rem; }
+
+/* Accessibility helpers */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.skip-link { position: absolute; left: -999px; background: var(--primary); color: #fff; padding: .5rem 1rem; z-index: 200; }
+.skip-link:focus { left: 0; }
+:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+
+/* ---------- 3. Buttons ---------- */
+.btn { display: inline-block; background: var(--primary); color: #fff; padding: .8rem 1.6rem; border: 2px solid var(--primary); border-radius: 999px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background .2s, transform .2s; }
+.btn:hover { background: var(--primary-dark); border-color: var(--primary-dark); transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--primary); }
+.btn-outline:hover { color: #fff; }
+.btn-small { padding: .45rem 1.1rem; font-size: .95rem; }
+
+/* ---------- 4. Header & navigation (mobile first) ---------- */
+.site-header { position: sticky; top: 0; z-index: 100; background: var(--bg); box-shadow: 0 1px 6px rgba(0,0,0,.08); }
+.header-inner { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); }
+.logo { font-size: 1.6rem; font-weight: 800; }
+.logo span { color: var(--primary); }
+
+/* Hamburger icon (three bars) */
+.nav-toggle { background: none; border: 0; padding: .5rem; cursor: pointer; display: flex; flex-direction: column; gap: 5px; }
+.nav-toggle .bar { width: 26px; height: 3px; background: var(--text); border-radius: 2px; transition: transform .3s, opacity .3s; }
+/* Animate bars into an "X" when menu is open (state set by JS via aria-expanded) */
+.nav-toggle[aria-expanded="true"] .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* Mobile menu: hidden dropdown panel, revealed with the .open class */
+.nav { position: absolute; top: var(--header-h); left: 0; right: 0; background: var(--bg); box-shadow: 0 8px 12px rgba(0,0,0,.08); max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+.nav.open { max-height: 400px; }
+.nav-list { display: flex; flex-direction: column; padding: 1rem 1.25rem 1.5rem; gap: 1rem; }
+.nav-list a:not(.btn):hover { color: var(--primary); }
+
+/* ---------- 5. Hero ---------- */
+.hero { background: linear-gradient(135deg, #eef2ff, #e0e7ff); padding: 3.5rem 0; }
+.hero-inner { display: grid; gap: 2.5rem; align-items: center; text-align: center; } /* 1 column on mobile */
+.hero h1 { font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.15; margin-bottom: 1rem; } /* fluid font size */
+.hero p { color: var(--muted); font-size: 1.1rem; margin-bottom: 1.5rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; }
+
+/* CSS-only illustration */
+.hero-visual { position: relative; height: 220px; max-width: 360px; margin-inline: auto; width: 100%; }
+.mock-card { position: absolute; inset: 0 20% 20% 0; background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.2rem; display: flex; flex-direction: column; gap: .8rem; }
+.mock-card.offset { inset: 20% 0 0 20%; background: var(--primary); }
+.mock-card i { display: block; height: 14px; border-radius: 7px; background: #e5e7eb; }
+.mock-card i:nth-child(2) { width: 70%; }
+.mock-card i:nth-child(3) { width: 45%; }
+.mock-card.offset i { background: rgba(255,255,255,.5); }
+
+/* ---------- 6. Generic sections ---------- */
+.section { padding: 3.5rem 0; }
+.section-alt { background: var(--bg-alt); }
+.section-title { text-align: center; font-size: clamp(1.6rem, 4vw, 2.2rem); margin-bottom: .5rem; }
+.section-sub { text-align: center; color: var(--muted); margin-bottom: 2.5rem; }
+
+/* ---------- 7. Features (CSS Grid) ---------- */
+.features-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; } /* 1 column on phones */
+.card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.6rem; transition: transform .25s; }
+.card:hover { transform: translateY(-5px); }
+.icon { width: 48px; height: 48px; display: grid; place-items: center; font-size: 1.4rem; background: #eef2ff; border-radius: 12px; margin-bottom: 1rem; }
+.card h3 { margin-bottom: .4rem; }
+.card p { color: var(--muted); }
+
+/* ---------- 8. Steps (Flexbox) ---------- */
+.steps { display: flex; flex-direction: column; gap: 2rem; margin-top: 2rem; text-align: center; }
+.steps li { flex: 1; }
+.step-num { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--primary); color: #fff; font-weight: 700; font-size: 1.3rem; margin-bottom: .8rem; }
+.steps p { color: var(--muted); }
+
+/* ---------- 9. CTA / form ---------- */
+.cta { background: var(--primary); color: #fff; }
+.cta .section-sub { color: #e0e7ff; }
+.signup { display: flex; flex-direction: column; gap: .8rem; max-width: 480px; margin-inline: auto; }
+.signup input { padding: .85rem 1.1rem; border-radius: 999px; border: 2px solid transparent; font-size: 1rem; }
+.signup .btn { background: #f59e0b; border-color: #f59e0b; color: #1f2937; }
+.form-msg { text-align: center; margin-top: 1rem; min-height: 1.5em; font-weight: 600; }
+
+/* ---------- 10. Footer ---------- */
+.site-footer { background: #111827; color: #d1d5db; padding: 2rem 0; }
+.footer-inner { display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a:hover { color: #fff; }
+
+/* =====================================================
+   TABLET  (>= 768px)
+   ===================================================== */
+@media (min-width: 768px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }  /* 2 columns */
+  .steps { flex-direction: row; }                              /* steps side by side */
+  .signup { flex-direction: row; }
+  .signup input { flex: 1; }
+  .footer-inner { flex-direction: row; justify-content: space-between; text-align: left; }
+}
+
+/* =====================================================
+   DESKTOP (>= 1024px)
+   ===================================================== */
+@media (min-width: 1024px) {
+  .nav-toggle { display: none; }                  /* hide hamburger */
+  .nav { position: static; max-height: none; overflow: visible; box-shadow: none; background: none; }
+  .nav-list { flex-direction: row; align-items: center; padding: 0; gap: 2rem; }
+
+  .hero { padding: 6rem 0; }
+  .hero-inner { grid-template-columns: 1.1fr 1fr; text-align: left; } /* text | visual */
+  .hero-actions { justify-content: flex-start; }
+  .hero-visual { height: 320px; max-width: none; }
+
+  .features-grid { grid-template-columns: repeat(4, 1fr); }  /* 4 columns */
+  .section { padding: 5rem 0; }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
